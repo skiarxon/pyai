@@ -18,8 +18,8 @@ def main():
 
     if not args:
         print("AI Code Assistant")
-        print('\nUsage: python main.py "your prompt here" [--verbose]')
-        print('Example: python main.py "How do I fix the calculator?"')
+        print('\nUsage: uv run main.py "your prompt here" [--verbose]')
+        print('Example: uv run main.py "How do I fix the calculator?"')
         sys.exit(1)
 
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -67,6 +67,10 @@ def generate_content(client, messages, verbose):
         for candidate in response.candidates:
             function_call_content = candidate.content
             messages.append(function_call_content)
+
+    if not response.candidates:
+        if verbose:
+            print("Kapoy gamithike to Gemini")
 
     if not response.function_calls:
         return response.text
